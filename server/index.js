@@ -5,11 +5,14 @@ import dotenv from "dotenv";
 import userRoute from "../server/Routes/userRoute.js";
 
 const app = express();
+
 dotenv.config(); //this allows us to config the process.env
 
 const port = process.env.PORT || 3000;
 const uri = process.env.ATLAS_URI;
 
+//middleware to parse json data
+app.use(express.json());
 // a middleware that alows us to send and receive data in app
 app.use(cors());
 app.use("/users", userRoute);
