@@ -1,5 +1,5 @@
 import userModel from "../Models/userModel.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcrypt"; //to hash the password before save to the database
 import jwt from "jsonwebtoken";
 import validator from "validator";
 
@@ -74,4 +74,26 @@ const loginUser = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser };
+//look for a user
+const findUser = async (req, res) => {
+  try {
+    let user = await userModel.findById(req.params.userId);
+    return res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+};
+
+//show all users
+const getUsers = async (req, res) => {
+  try {
+    let user = await userModel.find();
+    return res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+};
+
+export { registerUser, loginUser, findUser, getUsers };
