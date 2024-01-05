@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+body{
+  font-family: "Montserrat", sans-serif;
+  background-color: rgb(251, 249, 241);
+}
+
+.chat-home{
+
+}
+.bar{
+  background: rgb(53, 47, 68);
+}
+
+.buttons{
+  background-color: rgb(53, 47, 68);
+}
