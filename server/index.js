@@ -1,5 +1,5 @@
 import express from "express";
-import cors from "cors"; // this allows us to communicate with front end (send data, update...)
+import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoute from "../server/Routes/userRoute.js";
@@ -10,6 +10,8 @@ dotenv.config({
   path: "/Users/bachquangdam/Documents/projects/Chat App/server/.env",
 }); //this allows us to config the process.env
 
+// require("dotenv").config();
+
 const port = process.env.PORT || 3000;
 const uri = process.env.ATLAS_URI;
 
@@ -18,7 +20,7 @@ app.use(express.json());
 // a middleware that alows us to send and receive data in app from front end
 app.use(cors());
 //middleware for link destination
-app.use("/users", userRoute);
+app.use("/api/users", userRoute);
 
 //main page
 app.get("/", (req, res) => {

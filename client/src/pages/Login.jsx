@@ -14,7 +14,6 @@ const Login = () => {
           <Col xs={6}>
             <Stack gap={3}>
               <h2>Login</h2>
-              <Form.Control type="text" placeholder="Name" />
               <Form.Control type="email" placeholder="Email" />
               <Form.Control type="password" placeholder="Password" />
               <Button variant="secondary" type="submit" className="buttons">
