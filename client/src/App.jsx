@@ -5,16 +5,20 @@ import Register from "./pages/Register";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import NavBar from "./components/NavBar";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
 
 function App() {
+  // get the user infor, if the user is already loggin, show the chat and no longer access to Login or Register
+  const { user } = useContext(AuthContext);
   return (
     <>
       <NavBar />
       <Container className="text-secondary">
         <Routes>
-          <Route path="/" element={<Chat />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/" element={user ? <Chat /> : <Login />} />
+          <Route path="/login" element={user ? <Chat /> : <Login />} />
+          <Route path="/register" element={user ? <Chat /> : <Register />} />
           {/* if the path is unavailable, we navigate back to "/" */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
