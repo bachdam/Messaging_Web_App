@@ -15,3 +15,5 @@ route.get("/find/:userId", findUser);
 route.get("/", getUsers);
 
 export default route;
+
+//remember whenever we create a route file, we need to declare a middleware to use it in index.js

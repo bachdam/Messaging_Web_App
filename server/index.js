@@ -3,6 +3,8 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoute from "../server/Routes/userRoute.js";
+import chatRoute from "../server/Routes/chatRoute.js";
+import messageRoute from "../server/Routes/messageRoute.js";
 
 const app = express();
 
@@ -21,6 +23,8 @@ app.use(express.json());
 app.use(cors());
 //middleware for link destination
 app.use("/api/users", userRoute);
+app.use("/api/chats", chatRoute);
+app.use("/api/messages", messageRoute);
 
 //main page
 app.get("/", (req, res) => {
