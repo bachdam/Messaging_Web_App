@@ -1,5 +1,6 @@
 import { createContext, useCallback, useEffect, useState } from "react";
 import { baseURL, postRequest, getRequest } from "../utils/services.js";
+import { io } from "socket.io-client";
 
 export const ChatContext = createContext();
 
@@ -12,9 +13,39 @@ export const ChatContextProvider = ({ children, user }) => {
   const [messages, setMessages] = useState(null);
   const [isMessagesLoading, setIsMessagesLoading] = useState(false);
   const [messagesError, setMessagesError] = useState(null);
+  const [sendTextMessageError, setSendTextMessageError] = useState(null);
+  const [newMessage, setNewMessage] = useState(null);
+  const [socket, setSocket] = useState(null);
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
-  console.log("messages", messages);
-  console.log("currentChat", currentChat);
+  console.log("onlineUsers", onlineUsers);
+
+  //initial socket
+  useEffect(() => {
+    const newSocket = io("http://localhost:8080");
+    setSocket(newSocket);
+
+    //clean up funct
+    return () => {
+      newSocket.disconnect();
+    };
+  }, [user]);
+
+  //trigger an event for [socket]; whenever the socket changes, so we run this useEffect
+  //get onlineUsers
+  useEffect(() => {
+    //only reigger the event when socket is not null
+    if (socket === null) return;
+    socket.emit("addNewUser", user?._id);
+    socket.on("getOnlineUsers", (res) => {
+      setOnlineUsers(res);
+    });
+
+    //need this to turn off the online status of the user
+    return () => {
+      socket.off("getOnlineUsers");
+    };
+  }, [socket]);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -90,6 +121,28 @@ export const ChatContextProvider = ({ children, user }) => {
     getMessages();
   }, [currentChat]);
 
+  //send message
+  const sendTextMessage = useCallback(
+    async (textMessage, sender, currentChatId, setTextMessage) => {
+      if (!textMessage) return console.log("Type message!");
+      const response = await postRequest(
+        `${baseURL}/messages`,
+        JSON.stringify({
+          chatId: currentChatId,
+          senderId: sender._id,
+          text: textMessage,
+        })
+      );
+
+      if (response.error) return setSendTextMessageError(response);
+
+      setNewMessage(response);
+      setMessages((prev) => [...prev, response]);
+      setTextMessage("");
+    },
+    []
+  );
+
   //this will show the chat that the user wants to send a message
   const updateCurrentChat = useCallback((chat) => {
     setCurrentChat(chat);
@@ -120,6 +173,8 @@ export const ChatContextProvider = ({ children, user }) => {
         isMessagesLoading,
         messagesError,
         currentChat,
+        sendTextMessage,
+        onlineUsers,
       }}
     >
       {children}
