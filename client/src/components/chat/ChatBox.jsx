@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
 import { useFetchRecipientUser } from "../../hooks/useFetchRecipent";
@@ -14,8 +14,13 @@ const ChatBox = () => {
   //get the detials of other users by using fechRecipentUser
   const { recipientUser } = useFetchRecipientUser(currentChat, user);
   const [textMessage, setTextMessage] = useState("");
+  const scroll = useRef();
 
   console.log("textMessage", textMessage);
+
+  useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
   if (!recipientUser)
     return (
       <p style={{ textAlign: "center", width: "100%" }}>
