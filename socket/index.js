@@ -2,7 +2,7 @@ const { Server } = require("socket.io");
 
 const io = new Server({
   cors: {
-    origin: "https://messaging-web-app-frontend.vercel.app/",
+    origin: "http://localhost:5173",
   },
 });
 
