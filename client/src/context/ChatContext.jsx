@@ -39,13 +39,13 @@ export const ChatContextProvider = ({ children, user }) => {
     //only reigger the event when socket is not null
     if (socket === null) return;
     socket.emit("addNewUser", user?._id);
-    socket.on("getOnlineUsers", (res) => {
+    socket.on("getUsers", (res) => {
       setOnlineUsers(res);
     });
 
     //need this to turn off the online status of the user
     return () => {
-      socket.off("getOnlineUsers");
+      socket.off("getUsers");
     };
   }, [socket]);
 
@@ -97,7 +97,7 @@ export const ChatContextProvider = ({ children, user }) => {
       }
 
       //the output of this is an array: but we need to exclude oursefl
-      const pChats = response.filter((u) => {
+      const pChats = response?.filter((u) => {
         let isChatCreated = false;
         //it exclude the curent user id
         if (user?._id === u._id) return false;
@@ -122,11 +122,10 @@ export const ChatContextProvider = ({ children, user }) => {
   //get our users from backend apis
   useEffect(() => {
     const getUserChats = async () => {
+      setIsUserChatsLoading(true);
+      setUserChatsError(null);
       //if the user exists and has id
       if (user?._id) {
-        setIsUserChatsLoading(true);
-        setUserChatsError(null);
-
         const response = await getRequest(`${baseURL}/chats/${user?._id}`);
 
         setIsUserChatsLoading(false);
@@ -186,7 +185,7 @@ export const ChatContextProvider = ({ children, user }) => {
   );
 
   //this will show the chat that the user wants to send a message
-  const updateCurrentChat = useCallback((chat) => {
+  const updateCurrentChat = useCallback(async (chat) => {
     setCurrentChat(chat);
   }, []);
 
@@ -287,6 +286,7 @@ export const ChatContextProvider = ({ children, user }) => {
         markAllRead,
         markNotificationAsRead,
         markThisUserNotificationsAsRead,
+        newMessage,
       }}
     >
       {children}
