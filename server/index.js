@@ -14,7 +14,7 @@ dotenv.config({
 
 app.use(
   cors({
-    origin: ["https://deloy-messaging-app.vercel.app"],
+    origin: ["https://messaging-web-app-frontend.vercel.app/"],
     methods: ["POST", "GET"],
     credentials: true,
   })
