@@ -1,5 +1,5 @@
 //perform all the HTTP requests CRUD here
-export const baseURL = "http://localhost:3000/api"; //this is the base url for our backend api
+export const baseURL = "https://messaging-web-app-six.vercel.app/api"; //this is the base url for our backend api
 
 export const postRequest = async (url, body) => {
   const response = await fetch(url, {

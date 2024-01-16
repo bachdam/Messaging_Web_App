@@ -12,6 +12,14 @@ dotenv.config({
   path: "/Users/bachquangdam/Documents/projects/Chat App/server/.env",
 }); //this allows us to config the process.env
 
+app.use(
+  cors({
+    origin: ["https://messaging-web-app-frontend.vercel.app/"],
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
+
 const port = process.env.PORT || 3000;
 const uri = process.env.ATLAS_URI;
 
