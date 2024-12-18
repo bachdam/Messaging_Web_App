@@ -1,6 +1,6 @@
 # Messaging Web App
 
-A robust full-stack messaging web application built with the **MERN stack** (MongoDB, Express.js, React.js, Node.js) and **Vite**. This application allows users to seamlessly communicate through real-time messaging.
+A robust full-stack messaging web application built with the **MERN stack** (MongoDB, Express.js, React.js, Node.js) and **Vite**. This application allows users to communicate through real-time messaging seamlessly.
 
 ---
 
@@ -40,8 +40,8 @@ A robust full-stack messaging web application built with the **MERN stack** (Mon
 
 2. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/messaging-web-app.git
-   cd messaging-web-app
+   https://github.com/bachdam/Messaging_Web_App.git
+   cd messaging_web_app
    ```
 
 3. **Install Dependencies**:
